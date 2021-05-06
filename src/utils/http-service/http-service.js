@@ -2,10 +2,11 @@ import baseUrl from './url';
 import axios from 'axios';
 import { PanResponder } from 'react-native';
 
-export const Post = async (item, endpoint) => {
+export const Post = (item, endpoint) => {
     try {
-       return await axios.post(`${baseUrl}/${endpoint}`, item)
-       // console.log(response)
+       axios.post(`${baseUrl}/${endpoint}`, item).then((res) => {
+         return res;
+       })
     } catch (error) {
         return error.response 
     }

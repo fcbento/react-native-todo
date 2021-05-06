@@ -13,7 +13,6 @@ export default function Input(props) {
                 </Label>
 
                 <InputContainer
-                    // placeholder={props.placeholder}
                     type={props.type}
                     onChangeText={props.onChangeText}
                     value={props.value}

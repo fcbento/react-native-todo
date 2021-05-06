@@ -1,32 +1,24 @@
 import React from 'react'
 import { AsyncStorage, Alert } from 'react-native';
-
-import { Container, ForgotPassword} from './styles'
+import axios from 'axios';
+import { Container, ForgotPassword } from './styles'
 import Input from '../../components/input/input'
 import Button from '../../components/button/button'
-import { Post } from '../../utils/http-service/http-service';
 import { Entypo } from '@expo/vector-icons'
 
 export default function SignIn(props) {
 
     const [email, onChangeUser] = React.useState('');
     const [password, onChangePassword] = React.useState('');
+    const history = useHistory();
 
     const onSignIn = () => {
-        //setLoading(true)
-        Post({ email, password }, '/user/login')
-            .then(response => {
-                if (response.status !== 400) {
-                    if (response.data.token && response.data.user) {
-                        props.checkUser(response.data.token)
-                        setStorage('user', response.data.user)
-                        setStorage('token', response.data.token)
-                    }
-                } else {
-                    console.log('object')
-                    errorMessage(response.data.message)
-                }
-            });
+        axios.post('http://192.168.1.4:8080/login', { email, password }).then((res) => {
+            props.checkUser(res.headers.authorization)
+            setStorage('token', res.headers.authorization);
+        }).catch((e) => {
+            errorMessage('Email or password invalid')
+        });
     }
 
     const setStorage = async (name, data) => {
@@ -51,8 +43,8 @@ export default function SignIn(props) {
 
         <Container>
             <Entypo name="drop" size={44} color="white" />
-           
-           <Input
+
+            <Input
                 label={true}
                 placeholder="Email"
                 type="text"
