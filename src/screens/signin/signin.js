@@ -23,11 +23,7 @@ export default function SignIn(props) {
 
     const setStorage = async (name, data) => {
         if (data && name) {
-            try {
-                await AsyncStorage.setItem(name, JSON.stringify(data));
-            } catch (error) {
-                console.log(error)
-            }
+            await AsyncStorage.setItem(name, JSON.stringify(data));
         }
     }
 

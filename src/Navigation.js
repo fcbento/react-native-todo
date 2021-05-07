@@ -1,6 +1,6 @@
 import React from 'react'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import { AsyncStorage} from 'react-native';
+import { AsyncStorage } from 'react-native';
 import { AntDesign, FontAwesome5 } from '@expo/vector-icons';
 
 import HomeScreen from './screens/home/home'
@@ -44,23 +44,21 @@ export function Navigation() {
     const [isLogged, setLogged] = React.useState(false);
 
     const retrieveData = async () => {
-        try {
-            const value = await AsyncStorage.getItem('token');
-            await AsyncStorage.removeItem('token')
-            if (value !== null) {
-                setLogged(true)
-            }
-        } catch (error) {
-            setLogged(false)
+
+        const value = await AsyncStorage.getItem('token');
+        await AsyncStorage.removeItem('token');
+
+        if (value !== null) {
+            setLogged(true);
         }
     };
 
     retrieveData()
 
-    const checkUser = (token) => {
+    const checkUser = token => {
 
-        if (token)
-            setLogged(true)
+        if (token.includes('Bearer'))
+            setLogged(true);
     }
 
     return (
@@ -109,7 +107,7 @@ export function Navigation() {
 
                     (
                         <>
-                        
+
                             <Tab.Screen
                                 name="SignIn"
                                 children={() => <SignInScreen checkUser={checkUser} />}
