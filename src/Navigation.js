@@ -9,6 +9,7 @@ import SettingsScreen from './screens/settings/settings'
 import SignInScreen from './screens/signin/signin'
 import SignUpScreen from './screens/signup/signup'
 import ProductScreen from './screens/products/products'
+import ShoppingCartScreen from './screens/shopping/shopping'
 
 const Tab = createBottomTabNavigator();
 
@@ -39,6 +40,11 @@ const icons = {
         name: 'menuunfold'
     },
 
+    ShoppingCart: {
+        lib: AntDesign,
+        name: 'shoppingcart'
+    },
+
     Settings: {
         lib: AntDesign,
         name: 'setting'
@@ -49,6 +55,7 @@ export function Navigation() {
 
     const [isLogged, setLogged] = React.useState(false);
     const [token, setToken] = React.useState();
+    const [cart, setCart] = React.useState([]);
 
     const retrieveData = async () => {
 
@@ -68,6 +75,10 @@ export function Navigation() {
             setToken(token);
             setLogged(true);
         }
+    }
+
+    const dataFromCart = (cart) => {
+        setCart(cart);
     }
 
     return (
@@ -99,12 +110,17 @@ export function Navigation() {
                     <>
                         <Tab.Screen
                             name="Home"
-                            children={() => <HomeScreen token={token} />}
+                            children={() => <HomeScreen />}
                         />
 
                         <Tab.Screen
                             name="Product"
-                            children={() => <ProductScreen token={token} />}
+                            children={() => <ProductScreen token={token} dataFromCart={dataFromCart} />}
+                        />
+
+                        <Tab.Screen
+                            name="ShoppingCart"
+                            children={() => <ShoppingCartScreen cart={cart} />}
                         />
 
                         <Tab.Screen

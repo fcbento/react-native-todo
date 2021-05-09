@@ -7,6 +7,7 @@ import { useState, useEffect } from 'react';
 export default function Products(props) {
 
     const [products, setProducts] = useState([]);
+    const [cart, setCart] = useState([]);
 
     const fetchProducts = async () => {
 
@@ -16,13 +17,22 @@ export default function Products(props) {
             Authorization: JSON.parse(props.token)
         }
 
-        console.log(props)
-
         const { data } = await axios.get(
             'http://192.168.1.4:8080/api/products?size=10&page=0', { headers: headers }
         );
         setProducts(data.content);
     };
+
+    const addToCard = (product) => {
+
+        if (product.quantity > 0) {
+            product.quantity = product.quantity - 1;
+            setProducts([...products]);
+            cart.push(product);
+            setCart([...cart]);
+            props.dataFromCart(cart)
+        }
+    }
 
     useEffect(() => {
         fetchProducts();
@@ -34,16 +44,27 @@ export default function Products(props) {
 
             {products.map((product, index) => (
                 <Card key={index}>
+
                     <Description> {product.category.name} </Description>
                     <Title >{product.name}</Title>
+
                     <Image
-                        style={{width: 140, height: 140}}
+                        style={{ width: '100%', height: 240 }}
                         source={{
-                            uri: 'https://reactnative.dev/img/tiny_logo.png',
+                            uri: `${product.image}`,
                         }}
                     />
+
                     <Price>$ {product.price}</Price>
-                    <Button title={'Buy'}></Button>
+                    <Description> Available:  {product.quantity} </Description>
+
+                    <Button
+                        title={'Add'}
+                        onPress={() =>
+                            addToCard(product)}
+                        disable={product.quantity <= 0}>
+                    </Button>
+
                 </Card>
             ))}
 
