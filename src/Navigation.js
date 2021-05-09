@@ -8,6 +8,7 @@ import ProfileScreen from './screens/profile/profile'
 import SettingsScreen from './screens/settings/settings'
 import SignInScreen from './screens/signin/signin'
 import SignUpScreen from './screens/signup/signup'
+import ProductScreen from './screens/products/products'
 
 const Tab = createBottomTabNavigator();
 
@@ -33,6 +34,11 @@ const icons = {
         name: 'user-astronaut'
     },
 
+    Product: {
+        lib: AntDesign,
+        name: 'menuunfold'
+    },
+
     Settings: {
         lib: AntDesign,
         name: 'setting'
@@ -42,23 +48,26 @@ const icons = {
 export function Navigation() {
 
     const [isLogged, setLogged] = React.useState(false);
+    const [token, setToken] = React.useState();
 
     const retrieveData = async () => {
 
         const value = await AsyncStorage.getItem('token');
-        await AsyncStorage.removeItem('token');
+        //AsyncStorage.removeItem('token')
 
         if (value !== null) {
+            setToken(value);
             setLogged(true);
         }
     };
 
-    retrieveData()
+    retrieveData();
 
     const checkUser = token => {
-
-        if (token.includes('Bearer'))
+        if (token.includes('Bearer')) {
+            setToken(token);
             setLogged(true);
+        }
     }
 
     return (
@@ -90,7 +99,12 @@ export function Navigation() {
                     <>
                         <Tab.Screen
                             name="Home"
-                            component={HomeScreen}
+                            children={() => <HomeScreen token={token} />}
+                        />
+
+                        <Tab.Screen
+                            name="Product"
+                            children={() => <ProductScreen token={token} />}
                         />
 
                         <Tab.Screen

@@ -2,17 +2,17 @@ import React from 'react'
 import { AsyncStorage, Alert } from 'react-native';
 import axios from 'axios';
 import { Container, ForgotPassword } from './styles'
+import { Entypo } from '@expo/vector-icons'
 import Input from '../../components/input/input'
 import Button from '../../components/button/button'
-import { Entypo } from '@expo/vector-icons'
 
 export default function SignIn(props) {
 
     const [email, onChangeUser] = React.useState('');
     const [password, onChangePassword] = React.useState('');
-    const history = useHistory();
 
     const onSignIn = () => {
+        
         axios.post('http://192.168.1.4:8080/login', { email, password }).then((res) => {
             props.checkUser(res.headers.authorization)
             setStorage('token', res.headers.authorization);
