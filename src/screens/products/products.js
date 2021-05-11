@@ -14,24 +14,31 @@ export default function Products(props) {
         let headers = {
             'Accept': 'application/json, text/plain, */*',
             'Content-Type': 'application/json',
-            Authorization: JSON.parse(props.token)
         }
 
         const { data } = await axios.get(
-            'http://192.168.1.4:8080/api/products?size=10&page=0', { headers: headers }
+            'http://192.168.1.4:8080/api/products?size=10&page=0'
         );
         setProducts(data.content);
     };
 
     const addToCard = (product) => {
 
-        if (product.quantity > 0) {
-            product.quantity = product.quantity - 1;
-            setProducts([...products]);
+        if (cart.length <= 0) {
             cart.push(product);
             setCart([...cart]);
-            props.dataFromCart(cart)
+        } else {
+
+            let onCart = cart.filter(item => item.productId === product.productId)
+
+            if (onCart.length <= 0) {
+                cart.push(product);
+                setCart([...cart]);
+            }
         }
+
+        props.dataFromCart(cart)
+
     }
 
     useEffect(() => {
