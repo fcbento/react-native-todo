@@ -8,18 +8,22 @@ export default function Shopping(props) {
 
     const [products, setProducts] = useState([]);
 
-    const add = (product, index) => {
-        products.forEach((item, i) => {
-            if (index === i) {
-                if (item.cartQuantity < product.quantity) {
-                    item.cartQuantity = product.cartQuantity + 1;
-                    setProducts(products);
-                }
-                console.log(item)
+    const addOrRemove = (product, type) => {
 
+        products.forEach((item) => {
+            if (product.productId == item.productId) {
+
+                if (type === 'add') {
+                    product.cartQuantity < product.quantity ? item.cartQuantity++ : 0;
+                }
+
+                if (type === 'remove') {
+                    product.cartQuantity > 1 ? item.cartQuantity-- : 0;
+                }
             }
         });
 
+        setProducts([...products]);
     }
 
     useEffect(() => {
@@ -28,8 +32,10 @@ export default function Shopping(props) {
             element.cartQuantity = 1;
         });
 
-        setProducts(props.cart);
-    })
+        setProducts([...props.cart]);
+
+    }, [])
+
     return (
 
         <Container>
@@ -46,12 +52,14 @@ export default function Shopping(props) {
                             uri: `${product.image}`,
                         }}
                     />
+
                     <Text>
-                        {product.cartQuantity}
-                        <AntDesign name="pluscircle" size={24} color="black" onPress={() => add(product, index)} />
+                        <AntDesign name="minuscircle" size={24} color="black" onPress={() => addOrRemove(product, 'remove')} />
+                        <AntDesign name="pluscircle" size={24} color="black" onPress={() => addOrRemove(product, 'add')} />
                     </Text>
-                    <Description> On cart:  {product.quantityCart} </Description>
-                    <Price>$ {product.price}</Price>
+
+                    <Description> On cart: {product.cartQuantity} </Description>
+                    <Price>$ {product.price * product.cartQuantity}</Price>
                 </Card>
             ))}
         </Container>
