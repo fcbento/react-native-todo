@@ -28,8 +28,22 @@ export const Title = styled.Text`
     margin-bottom: 15px;
 `;
 
+export const TitleTotal = styled.Text`
+    color: black;
+    font-weight: bold;
+    font-size: 13px;
+    align-items: center;
+    margin-bottom: 10px;
+`;
+
 export const Description = styled.Text`
     font-size: 15px;
+    color: red;
+    margin-bottom: 15px;
+`;
+
+export const DescriptionTotal = styled.Text`
+    font-size: 10px;
     color: red;
     margin-bottom: 15px;
 `;
