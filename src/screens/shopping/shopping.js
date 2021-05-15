@@ -90,27 +90,20 @@ export default function Shopping(props) {
             ) :
                 (
                     <Container >
-                        <Card>
-                            {products.map((product, index) => (
-                                <View key={index}>
-                                    <DescriptionTotal> {product.category.name} </DescriptionTotal>
-                                    <TitleTotal>{product.name}</TitleTotal>
-                                </View>
-                            ))}
-                            <Title >TOTAL : $ {totalPrice}</Title>
-
-                        </Card>
 
                         <Card>
                             {products.map((product, index) => (
                                 <View key={index}>
                                     <DescriptionTotal> {product.category.name} </DescriptionTotal>
                                     <TitleTotal>{product.name}</TitleTotal>
+                                    <Description> Price : $ {formatMoney(product.price)} </Description>
+                                    <Description> Qty : {product.cartQuantity} </Description>
+                                    <Description> Total : $ {formatMoney(product.cartQuantity * product.price)} </Description>
                                 </View>
                             ))}
                             <Title >TOTAL : $ {totalPrice}</Title>
+                            <Button title={'Finish'} onPress={buyItems}></Button>
                         </Card>
-                        <Button title={'Finish'} onPress={buyItems}></Button>
                     </Container>
                 )
 
