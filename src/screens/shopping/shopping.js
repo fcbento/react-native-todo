@@ -2,7 +2,9 @@ import React, { useState, useEffect } from 'react'
 import { Button, Image, Text, View } from 'react-native'
 import { Container, Title, Description, Card, Price, DescriptionTotal, TitleTotal } from './styles'
 import { AntDesign } from '@expo/vector-icons';
-import { set } from 'react-native-reanimated';
+import ShoppingDetail from './shopping-detail';
+import ShoppingItems from './shopping-items';
+import { formatMoney } from '../../utils/common';
 
 export default function Shopping(props) {
 
@@ -45,10 +47,6 @@ export default function Shopping(props) {
         }, 0);
     }
 
-    const formatMoney = (value) => {
-        return value ? value.toFixed(2).replace(/\d(?=(\d{3})+\.)/g, '$&,') : 0;
-    }
-
     const buyItems = () => {
         setIsBought(!isBought)
     }
@@ -61,52 +59,14 @@ export default function Shopping(props) {
 
             {!isBought ? (
                 <Container >
-
-                    {products.map((product, index) => (
-
-                        <Card key={index}>
-
-                            <Description> {product.category.name} </Description>
-                            <Title >{product.name}</Title>
-
-                            <Image
-                                style={{ width: '100%', height: 240 }}
-                                source={{
-                                    uri: `${product.image}`,
-                                }}
-                            />
-
-                            <Text>
-                                <AntDesign name="minuscircle" size={24} color="black" onPress={() => addOrRemove(product, 'remove')} />
-                                <AntDesign name="pluscircle" size={24} color="black" onPress={() => addOrRemove(product, 'add')} />
-                            </Text>
-
-                            <Description> On cart: {product.cartQuantity} </Description>
-                            <Price>$ {formatMoney(product.price * product.cartQuantity)}</Price>
-                        </Card>
-                    ))}
-
+                    <ShoppingItems products={products} addOrRemove={addOrRemove}></ShoppingItems>
                 </Container>
             ) :
                 (
                     <Container >
-
-                        <Card>
-                            {products.map((product, index) => (
-                                <View key={index}>
-                                    <DescriptionTotal> {product.category.name} </DescriptionTotal>
-                                    <TitleTotal>{product.name}</TitleTotal>
-                                    <Description> Price : $ {formatMoney(product.price)} </Description>
-                                    <Description> Qty : {product.cartQuantity} </Description>
-                                    <Description> Total : $ {formatMoney(product.cartQuantity * product.price)} </Description>
-                                </View>
-                            ))}
-                            <Title >TOTAL : $ {totalPrice}</Title>
-                            <Button title={'Finish'} onPress={buyItems}></Button>
-                        </Card>
+                        <ShoppingDetail products={products} totalPrice={totalPrice}></ShoppingDetail>
                     </Container>
                 )
-
             }
         </>
     )
