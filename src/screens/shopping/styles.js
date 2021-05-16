@@ -63,3 +63,8 @@ export const Button = styled.TouchableOpacity`
     align-items: center;
     background-color: blue;
 `;
+
+export const Input = styled.TextInput`
+    border-width: 1px;
+    margin: 10px;
+`;

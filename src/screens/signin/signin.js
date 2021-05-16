@@ -16,6 +16,7 @@ export default function SignIn(props) {
         axios.post('http://192.168.1.4:8080/login', { email, password }).then((res) => {
             props.checkUser(res.headers.authorization)
             setStorage('token', res.headers.authorization);
+            setStorage('user', res.data);
         }).catch((e) => {
             errorMessage('Email or password invalid')
         });

@@ -5,7 +5,7 @@ import { Container, Title, Description, Card, Price, DescriptionTotal, TitleTota
 import { AntDesign } from '@expo/vector-icons';
 
 export default function ShoppingItems(props) {
-    console.log(props)
+
     return (
         <>
             {props.products.map((product, index) => (
