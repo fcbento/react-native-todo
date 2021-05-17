@@ -17,4 +17,4 @@ https://github.com/fcbento/svelte-crud-client
 
 ### Demo - Mobile App
 
-![Alt text](https://thumbs.gfycat.com/GlaringHelplessAbyssiniancat-mobile.mp4)
+![Alt text](https://gifyu.com/image/DpVF)
