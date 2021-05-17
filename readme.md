@@ -6,7 +6,7 @@ Been working on this one to practice some mobile stuff. Design is not my thing a
 - React Native
 - Svelte
 - Java, Spring Boot, Spring Security
-- SQL Sever
+- SQL Server
 - Cassandra 
 
 ### API - Java
@@ -17,4 +17,4 @@ https://github.com/fcbento/svelte-crud-client
 
 ### Demo - Mobile App
 
-![](app.gif)
+![Alt text](app.gif)
